@@ -55,7 +55,7 @@ var IMAGES = [5]string{
 
 var size int = len(IMAGES)
 
-func main() {
+func Ahorcado() {
 	for {
 		var palabra string
 		fmt.Print("\nIngrese la palabra a adivinar o 'q' para salir: ")
@@ -70,7 +70,7 @@ func main() {
 		secret := make([]string, sl_size)
 		fmt.Printf("La palabra tiene %d letras\n", sl_size)
 		salir := false
-		intentos := size
+		vidas := size
 
 		for i := 0; i < sl_size; i++ {
 			secret[i] = "_"
@@ -93,8 +93,8 @@ func main() {
 					secret[key] = value
 				}
 			} else {
-				fmt.Print(IMAGES[size-intentos])
-				intentos -= 1
+				fmt.Print(IMAGES[size-vidas])
+				vidas -= 1
 			}
 
 			secret_word := strings.Join(secret, "")
@@ -105,7 +105,7 @@ func main() {
 				salir = true
 			}
 
-			if intentos <= 0 {
+			if vidas <= 0 {
 				fmt.Printf("\nLa palabra era: %s\n\n(╥﹏╥)\nPerdisteee!\n", palabra)
 				salir = true
 			}

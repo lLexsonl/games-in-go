@@ -15,7 +15,7 @@ var option_s = map[string]string{
 	"s": "scissors",
 }
 
-func main() {
+func Rock() {
 	var option string
 	for {
 		fmt.Println("Rock, paper, scissors")
