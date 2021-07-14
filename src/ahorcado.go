@@ -53,7 +53,7 @@ var IMAGES = [5]string{
 `,
 }
 
-var size int = len(IMAGES)
+var size_img int = len(IMAGES)
 
 func Ahorcado() {
 	for {
@@ -93,7 +93,7 @@ func Ahorcado() {
 					secret[key] = value
 				}
 			} else {
-				fmt.Print(IMAGES[size-vidas])
+				fmt.Print(IMAGES[size_img-vidas])
 				vidas -= 1
 			}
 
@@ -114,9 +114,9 @@ func Ahorcado() {
 }
 
 func FindIndexes(slices []string, letra string) map[int]string {
-	size := len(slices)
+	sl_size := len(slices)
 	var indexes_found = make(map[int]string)
-	for i := 0; i < size; i++ {
+	for i := 0; i < sl_size; i++ {
 		if slices[i] == letra {
 			indexes_found[i] = letra
 		}
