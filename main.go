@@ -5,7 +5,7 @@ import (
 	games "github.com/lLexsonl/games-in-go/games"
 )
 
-var games_opt = []string{"ahorcado", "piedra papel tijeras", "triqui", "salir"}
+var games_opt = []string{"ahorcado", "piedra papel tijeras", "triqui", "sudoku", "salir"}
 var g_size = len(games_opt)
 
 func main() {
@@ -25,6 +25,8 @@ func main() {
 			games.Triqui()
 		case "salir":
 			salir = true
+		case "sudoku":
+			games.SudokuLiang()
 		default:
 			continue
 		}
@@ -33,7 +35,7 @@ func main() {
 
 func menu() {
 	for i, opt := range games_opt {
-		fmt.Printf("%d.. Para %s\n", i, opt)
+		fmt.Printf("%d.. Para %s\n", i+1, opt)
 	}
 }
 
