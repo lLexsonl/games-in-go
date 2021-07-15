@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/llexsonl/ahorcado"
+	"github.com/llexsonl/games-in-go/games/"
 )
 
-var games = []string{"ahorcado", "piedra papel tijeras", "triqui", "salir"}
-var g_size = len(games)
+var games_opt = []string{"ahorcado", "piedra papel tijeras", "triqui", "salir"}
+var g_size = len(games_opt)
 
 func main() {
 
@@ -16,13 +16,13 @@ func main() {
 		menu()
 		option := choose()
 
-		switch games[option] {
+		switch games_opt[option] {
 		case "ahorcado":
-			Ahorcado()
+			games.Ahorcado()
 		case "piedra papel tijeras":
-			Rock()
+			games.Rock()
 		case "triqui":
-			Triqui()
+			games.triqui()
 		case "salir":
 			salir = true
 		default:
@@ -32,7 +32,7 @@ func main() {
 }
 
 func menu() {
-	for i, opt := range games {
+	for i, opt := range games_opt {
 		fmt.Printf("%d.. Para %s\n", i, opt)
 	}
 }

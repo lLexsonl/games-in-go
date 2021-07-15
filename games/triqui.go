@@ -1,10 +1,10 @@
-package main
+package games
 
 import (
 	"fmt"
 )
 
-var wins = [][][]int{
+var wins_table = [][][]int{
 	{{0, 0}, {0, 1}, {0, 2}},
 	{{1, 0}, {1, 1}, {1, 2}},
 	{{2, 0}, {2, 1}, {2, 2}},
@@ -94,10 +94,10 @@ func winner() (bool, string) {
 	var win = false
 	var winner string
 	var one, two, three string
-	for i := 0; i < len(wins) && !win; i++ {
-		one = table[wins[i][0][0]][wins[i][0][1]]
-		two = table[wins[i][1][0]][wins[i][1][1]]
-		three = table[wins[i][2][0]][wins[i][2][1]]
+	for i := 0; i < len(wins_table) && !win; i++ {
+		one = table[wins_table[i][0][0]][wins_table[i][0][1]]
+		two = table[wins_table[i][1][0]][wins_table[i][1][1]]
+		three = table[wins_table[i][2][0]][wins_table[i][2][1]]
 
 		if (one != G && two != G && three != G) && (one == two && one == three) {
 			win = true
