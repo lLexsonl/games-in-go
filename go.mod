@@ -1,3 +1,3 @@
-module llexsonl.com/games-in-go
+module github.com/lLexsonl/games-in-go
 
 go 1.16

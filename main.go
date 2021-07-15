@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/llexsonl/games-in-go/games/"
+	games "github.com/lLexsonl/games-in-go/games"
 )
 
 var games_opt = []string{"ahorcado", "piedra papel tijeras", "triqui", "salir"}
@@ -22,7 +22,7 @@ func main() {
 		case "piedra papel tijeras":
 			games.Rock()
 		case "triqui":
-			games.triqui()
+			games.Triqui()
 		case "salir":
 			salir = true
 		default:
