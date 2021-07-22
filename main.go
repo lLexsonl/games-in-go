@@ -18,23 +18,32 @@ func main() {
 	for !salir {
 
 		menu()
-		option := choose()
+		option, err := choose()
 
-		switch games_opt[option] {
-		case "ahorcado":
-			games.Ahorcado()
-		case "piedra papel tijeras":
-			games.Rock()
-		case "triqui":
-			games.Triqui()
-		case "salir":
-			salir = true
-		case "sudoku":
-			games.SudokuLiang()
-		default:
+		if err != nil {
+			fmt.Println(err)
 			continue
 		}
+		salir = play(option)
 	}
+}
+
+func play(game int) bool {
+	var salir = false
+	switch games_opt[game] {
+	case "ahorcado":
+		games.Ahorcado()
+	case "piedra papel tijeras":
+		games.Rock()
+	case "triqui":
+		games.Triqui()
+	case "salir":
+		salir = true
+	case "sudoku":
+		games.SudokuLiang()
+	default:
+	}
+	return salir
 }
 
 func menu() {
@@ -45,43 +54,48 @@ func menu() {
 	fmt.Println()
 }
 
-func scan() (int, error) {
+func parseInt(text string) (int, error) {
+	option, err := strconv.ParseInt(text, 10, 64)
+
+	if err != nil {
+		err = fmt.Errorf("solo ingresar numeros")
+	}
+	return int(option), err
+}
+
+func scan() (string, error) {
 	var err error
-	var opt int
-	var option int64
+	var text string
 
 	scanner := bufio.NewScanner(os.Stdin)
 	if scanner.Scan() {
-		line := scanner.Text()
-		option, err = strconv.ParseInt(line, 10, 64)
-
-		if err != nil {
-			opt, err = 0, fmt.Errorf("solo ingresar numeros")
-		} else {
-			opt, err = int(option), nil
-		}
-
+		text = scanner.Text()
 	} else {
-		opt, err = 0, fmt.Errorf("error inesperado")
+		err = fmt.Errorf("error inesperado")
 	}
-	return opt, err
+	return text, err
 }
 
-func choose() int {
-	for {
-
-		option, err := scan()
-
-		if err != nil {
-			fmt.Println(err)
-			menu()
-			continue
-		}
-
-		if option > 0 && option <= g_size {
-			return option - 1
-		}
-		fmt.Println("Opcion no valida")
-		menu()
+func validateOption(option int) (int, error) {
+	var err error
+	if option > 0 && option <= g_size {
+		option = option - 1
+	} else {
+		err = fmt.Errorf("opcion no valida")
 	}
+	return option, err
+}
+
+func choose() (int, error) {
+	var text string
+	var err error
+	var option int
+	text, err = scan()
+	if err == nil {
+		option, err = parseInt(text)
+		if err == nil {
+			option, err = validateOption(option)
+		}
+	}
+	return option, err
 }
