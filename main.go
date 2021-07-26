@@ -57,7 +57,7 @@ func chooseGame() (int, error) {
 	var err error
 	var option int
 
-	text, err = utils.Scan()
+	text, err = utils.Scan("Elige un juego: ")
 	if err == nil {
 		option, err = utils.ParseToInt(text)
 		if err == nil {

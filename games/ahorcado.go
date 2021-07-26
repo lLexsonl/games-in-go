@@ -67,8 +67,7 @@ func Ahorcado() {
 		var err error
 		var secret_word string
 
-		fmt.Print("\nIngrese la palabra a adivinar o 'q' para salir: ")
-		word, err = utils.Scan()
+		word, err = utils.Scan("\nIngrese la palabra a adivinar o 'q' para salir: ")
 
 		if err != nil {
 			fmt.Println(err)
@@ -89,10 +88,10 @@ func Ahorcado() {
 		for !salir {
 
 			fmt.Println(secret)
+			// fmt.Printf("%T : %p\n", secret, &secret)
 
 			var letter string
-			fmt.Print("Ingrese una letra: ")
-			letter, err = utils.Scan()
+			letter, err = utils.Scan("Ingrese una letra: ")
 
 			if err != nil {
 				fmt.Println(err)

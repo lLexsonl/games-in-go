@@ -7,9 +7,11 @@ import (
 	"strings"
 )
 
-func Scan() (string, error) {
+func Scan(message string) (string, error) {
 	var err error
 	var text string
+
+	fmt.Print(message)
 
 	scanner := bufio.NewScanner(os.Stdin)
 	if scanner.Scan() {
@@ -24,7 +26,7 @@ func ToLetters(word string) []string {
 	return strings.SplitAfter(word, "")
 }
 
-func FindLetterInSlice(letter string, slices []string) map[int]string {
+func IndexesOfLetterInSlice(letter string, slices []string) map[int]string {
 	sl_size := len(slices)
 	var indexes_found = make(map[int]string)
 	for i := 0; i < sl_size; i++ {
