@@ -58,6 +58,7 @@ var size_img int = len(IMAGES)
 func Ahorcado() {
 	for {
 		var palabra string
+
 		fmt.Print("\nIngrese la palabra a adivinar o 'q' para salir: ")
 		fmt.Scanln(&palabra)
 

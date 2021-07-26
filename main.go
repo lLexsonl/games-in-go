@@ -1,12 +1,9 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
-	"strconv"
-
 	"github.com/lLexsonl/games-in-go/games"
+	"github.com/lLexsonl/games-in-go/utils"
 )
 
 var GAMES = []string{"ahorcado", "piedra papel tijeras", "triqui", "sudoku", "salir"}
@@ -55,49 +52,16 @@ func showMenu() {
 	fmt.Println()
 }
 
-func parseInt(text string) (int, error) {
-	option, err := strconv.ParseInt(text, 10, 64)
-
-	if err != nil {
-		err = fmt.Errorf("solo ingresar numeros")
-	}
-	return int(option), err
-}
-
-func scan() (string, error) {
-	var err error
-	var text string
-
-	scanner := bufio.NewScanner(os.Stdin)
-	if scanner.Scan() {
-		text = scanner.Text()
-	} else {
-		err = fmt.Errorf("error inesperado")
-	}
-	return text, err
-}
-
-func validateOption(option int) (int, error) {
-	var err error
-
-	if option > 0 && option <= LENGTH {
-		option = option - 1
-	} else {
-		err = fmt.Errorf("opcion no valida")
-	}
-	return option, err
-}
-
 func chooseGame() (int, error) {
 	var text string
 	var err error
 	var option int
 
-	text, err = scan()
+	text, err = utils.Scan()
 	if err == nil {
-		option, err = parseInt(text)
+		option, err = utils.ParseToInt(text)
 		if err == nil {
-			option, err = validateOption(option)
+			option, err = utils.RangeToOption(option, 0, LENGTH)
 		}
 	}
 	return option, err
