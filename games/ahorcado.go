@@ -2,6 +2,7 @@ package games
 
 import (
 	"fmt"
+	"github.com/lLexsonl/games-in-go/utils"
 	"strings"
 )
 
@@ -55,72 +56,95 @@ var IMAGES = [5]string{
 
 var size_img int = len(IMAGES)
 
+const (
+	unknown_letter string = "_"
+	letter_to_exit string = "q"
+)
+
 func Ahorcado() {
 	for {
-		var palabra string
+		var word string
+		var err error
+		var secret_word string
 
 		fmt.Print("\nIngrese la palabra a adivinar o 'q' para salir: ")
-		fmt.Scanln(&palabra)
+		word, err = utils.Scan()
 
-		if palabra == "q" {
+		if err != nil {
+			fmt.Println(err)
+			word = "q"
+		}
+
+		if word == "q" {
 			break
 		}
 
-		slices := strings.SplitAfter(palabra, "")
-		sl_size := len(slices)
-		secret := make([]string, sl_size)
-		fmt.Printf("La palabra tiene %d letras\n", sl_size)
-		salir := false
-		vidas := size
+		word_size := len(word)
+		fmt.Printf("La palabra tiene %d letras\n", word_size)
 
-		for i := 0; i < sl_size; i++ {
-			secret[i] = "_"
-		}
-		fmt.Println()
+		secret := createSecret(word_size, unknown_letter)
+		salir := false
+		vidas := size_img
 
 		for !salir {
-			for i := 0; i < sl_size; i++ {
-				fmt.Printf(" %s ", secret[i])
-			}
-			fmt.Println()
 
-			var letra string
+			fmt.Println(secret)
+
+			var letter string
 			fmt.Print("Ingrese una letra: ")
-			fmt.Scanln(&letra)
+			letter, err = utils.Scan()
 
-			indexes_found := FindIndexes(slices, letra)
-			if len(indexes_found) > 0 {
-				for key, value := range indexes_found {
-					secret[key] = value
-				}
-			} else {
-				fmt.Print(IMAGES[size_img-vidas])
-				vidas -= 1
+			if err != nil {
+				fmt.Println(err)
+				salir = true
 			}
 
-			secret_word := strings.Join(secret, "")
+			indexes_found := findAllOcurrences(word, letter)
 
-			if palabra == secret_word {
-				fmt.Printf("\nLa palabra es: %s\n", palabra)
+			if len(indexes_found) == 0 {
+				fmt.Print(IMAGES[size_img-vidas])
+				vidas--
+			}
+
+			secret_word = fillAllOcurrences(secret, indexes_found)
+
+			if word == secret_word {
+				fmt.Printf("\nLa palabra es: %s\n", word)
 				fmt.Println("٩(^‿^)۶\nGanasteee!")
 				salir = true
 			}
 
 			if vidas <= 0 {
-				fmt.Printf("\nLa palabra era: %s\n\n(╥﹏╥)\nPerdisteee!\n", palabra)
+				fmt.Printf("\nLa palabra era: %s\n\n(╥﹏╥)\nPerdisteee!\n", word)
 				salir = true
 			}
 		}
 	}
 }
 
-func FindIndexes(slices []string, letra string) map[int]string {
-	sl_size := len(slices)
-	var indexes_found = make(map[int]string)
-	for i := 0; i < sl_size; i++ {
-		if slices[i] == letra {
-			indexes_found[i] = letra
+func fillAllOcurrences(secret []string, indexes_found map[int]string) string {
+	for key, value := range indexes_found {
+		secret[key] = value
+	}
+	secret_word := strings.Join(secret, "")
+	return secret_word
+}
+
+func findAllOcurrences(word string, serched string) map[int]string {
+	var letters_found = make(map[int]string)
+	for index, lett := range word {
+		letter := string(lett)
+		if letter == serched {
+			letters_found[index] = letter
 		}
 	}
-	return indexes_found
+	return letters_found
+}
+
+func createSecret(size int, unknown_letter string) []string {
+	secret := make([]string, size)
+	for i := 0; i < size; i++ {
+		secret[i] = unknown_letter
+	}
+	return secret
 }
