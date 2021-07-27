@@ -5,6 +5,13 @@ import (
 	"math/rand"
 )
 
+type Rock struct {
+}
+
+func (r *Rock) Play() {
+	rock()
+}
+
 // global
 var options = [3]string{"rock", "paper", "scissors"}
 var wins, losses, ties int
@@ -15,7 +22,7 @@ var option_s = map[string]string{
 	"s": "scissors",
 }
 
-func Rock() {
+func rock() {
 	var option string
 	for {
 		fmt.Println("Rock, paper, scissors")

@@ -61,7 +61,13 @@ const (
 	letter_to_exit string = "q"
 )
 
-func Ahorcado() {
+type Ahorcado struct{}
+
+func (a *Ahorcado) Play() {
+	ahorcado()
+}
+
+func ahorcado() {
 	for {
 		var word string
 		var err error
@@ -80,7 +86,7 @@ func Ahorcado() {
 		word_size := len(word)
 		fmt.Printf("La palabra tiene %d letras\n", word_size)
 
-		play(word, word_size)
+		playGame(word, word_size)
 
 	}
 }
@@ -116,7 +122,7 @@ func scanWord() (string, error) {
 	return utils.Scan("\nIngrese la palabra a adivinar o 'q' para salir: ")
 }
 
-func play(word string, word_size int) {
+func playGame(word string, word_size int) {
 	secret := createSecret(word_size, unknown_letter)
 	exit := false
 	lifes := size_img

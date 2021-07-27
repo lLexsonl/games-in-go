@@ -4,6 +4,12 @@ import (
 	"fmt"
 )
 
+type Triqui struct{}
+
+func (t *Triqui) Play() {
+	triqui()
+}
+
 var wins_table = [][][]int{
 	{{0, 0}, {0, 1}, {0, 2}},
 	{{1, 0}, {1, 1}, {1, 2}},
@@ -27,7 +33,7 @@ var table = [][]string{
 
 var turno = O
 
-func Triqui() {
+func triqui() {
 
 	for {
 		var x_coo, y_coo int

@@ -7,7 +7,7 @@ import (
 	"github.com/lLexsonl/games-in-go/utils"
 )
 
-var GAMES = []string{"ahorcado", "piedra papel tijeras", "triqui", "sudoku", "salir"}
+var GAMES = []string{"ahorcado", "roshambo", "triqui", "sudoku", "salir"}
 
 var LENGTH = len(GAMES)
 
@@ -31,19 +31,23 @@ func main() {
 	}
 }
 
-func play(game string) bool {
+func play(option string) bool {
 	var exit = false
-	switch game {
+	game := games.NewGame()
+	switch option {
 	case "ahorcado":
-		games.Ahorcado()
-	case "piedra papel tijeras":
-		games.Rock()
+		game.Play()
+	case "roshambo":
+		game.SetGame(&games.Rock{})
+		game.Play()
 	case "triqui":
-		games.Triqui()
+		game.SetGame(&games.Triqui{})
+		game.Play()
 	case "salir":
 		exit = true
 	case "sudoku":
-		games.SudokuLiang()
+		game.SetGame(&games.SudokuLiang{})
+		game.Play()
 	default:
 	}
 	return exit

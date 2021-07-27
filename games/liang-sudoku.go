@@ -4,6 +4,12 @@ import (
 	"fmt"
 )
 
+type SudokuLiang struct{}
+
+func (s *SudokuLiang) Play() {
+	sudokuLiang()
+}
+
 var grid = [][]int{
 	{5, 3, 4, 6, 7, 8, 9, 1, 2},
 	{6, 7, 2, 1, 9, 5, 3, 4, 8},
@@ -81,7 +87,7 @@ func show_grid() {
 	}
 }
 
-func SudokuLiang() {
+func sudokuLiang() {
 	fmt.Println("Sudoku")
 	show_grid()
 	fmt.Printf("Es solucion: %t\n", isValid(grid))

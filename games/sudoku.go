@@ -5,6 +5,12 @@ import (
 	"math/rand"
 )
 
+type Sudoku struct{}
+
+func (s *Sudoku) Play() {
+	sudoku()
+}
+
 var null = 0
 var table_sudo = [][]int{
 	{null, null, null},
@@ -13,7 +19,7 @@ var table_sudo = [][]int{
 }
 var sudo_size = len(table_sudo)
 
-func Sudoku() {
+func sudoku() {
 
 	rand_initial_table()
 	show_table()
