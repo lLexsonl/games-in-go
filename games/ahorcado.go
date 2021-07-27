@@ -54,7 +54,7 @@ var IMAGES = [5]string{
 `,
 }
 
-var size_img int = len(IMAGES)
+const size_img int = len(IMAGES)
 
 const (
 	unknown_letter string = "_"
@@ -65,9 +65,8 @@ func Ahorcado() {
 	for {
 		var word string
 		var err error
-		var secret_word string
 
-		word, err = utils.Scan("\nIngrese la palabra a adivinar o 'q' para salir: ")
+		word, err = scanWord()
 
 		if err != nil {
 			fmt.Println(err)
@@ -81,43 +80,8 @@ func Ahorcado() {
 		word_size := len(word)
 		fmt.Printf("La palabra tiene %d letras\n", word_size)
 
-		secret := createSecret(word_size, unknown_letter)
-		salir := false
-		vidas := size_img
+		play(word, word_size)
 
-		for !salir {
-
-			fmt.Println(secret)
-			// fmt.Printf("%T : %p\n", secret, &secret)
-
-			var letter string
-			letter, err = utils.Scan("Ingrese una letra: ")
-
-			if err != nil {
-				fmt.Println(err)
-				salir = true
-			}
-
-			indexes_found := findAllOcurrences(word, letter)
-
-			if len(indexes_found) == 0 {
-				fmt.Print(IMAGES[size_img-vidas])
-				vidas--
-			}
-
-			secret_word = fillAllOcurrences(secret, indexes_found)
-
-			if word == secret_word {
-				fmt.Printf("\nLa palabra es: %s\n", word)
-				fmt.Println("٩(^‿^)۶\nGanasteee!")
-				salir = true
-			}
-
-			if vidas <= 0 {
-				fmt.Printf("\nLa palabra era: %s\n\n(╥﹏╥)\nPerdisteee!\n", word)
-				salir = true
-			}
-		}
 	}
 }
 
@@ -146,4 +110,65 @@ func createSecret(size int, unknown_letter string) []string {
 		secret[i] = unknown_letter
 	}
 	return secret
+}
+
+func scanWord() (string, error) {
+	return utils.Scan("\nIngrese la palabra a adivinar o 'q' para salir: ")
+}
+
+func play(word string, word_size int) {
+	secret := createSecret(word_size, unknown_letter)
+	salir := false
+	vidas := size_img
+
+	var secret_word string
+	var err error
+
+	for !salir {
+
+		fmt.Println(secret)
+
+		var letter string
+		letter, err = utils.Scan("Ingrese una letra: ")
+
+		if err != nil {
+			fmt.Println(err)
+			salir = true
+			continue
+		}
+
+		indexes_found := findAllOcurrences(word, letter)
+
+		if len(indexes_found) == 0 {
+			fmt.Print(IMAGES[size_img-vidas])
+			vidas--
+		}
+
+		secret_word = fillAllOcurrences(secret, indexes_found)
+
+		if win(word, secret_word) {
+			salir = true
+		}
+
+		if lose(word, vidas) {
+			salir = true
+		}
+	}
+}
+
+func win(word string, secret_word string) bool {
+	if word == secret_word {
+		fmt.Printf("\nLa palabra es: %s\n", word)
+		fmt.Println("٩(^‿^)۶\nGanasteee!")
+		return true
+	}
+	return false
+}
+
+func lose(word string, vidas int) bool {
+	if vidas <= 0 {
+		fmt.Printf("\nLa palabra era: %s\n\n(╥﹏╥)\nPerdisteee!\n", word)
+		return true
+	}
+	return false
 }

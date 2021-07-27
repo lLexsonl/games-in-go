@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/lLexsonl/games-in-go/games"
 	"github.com/lLexsonl/games-in-go/utils"
 )
@@ -16,19 +17,23 @@ func main() {
 	for !exit {
 
 		showMenu()
-		game, err := chooseGame()
 
+		text, err := scanOptionGame()
 		if err != nil {
 			fmt.Println(err)
-			continue
 		}
-		exit = play(game)
+		option, err := validateGameOption(text)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		exit = play(GAMES[option])
 	}
 }
 
-func play(index int) bool {
-	var salir = false
-	switch GAMES[index] {
+func play(game string) bool {
+	var exit = false
+	switch game {
 	case "ahorcado":
 		games.Ahorcado()
 	case "piedra papel tijeras":
@@ -36,12 +41,12 @@ func play(index int) bool {
 	case "triqui":
 		games.Triqui()
 	case "salir":
-		salir = true
+		exit = true
 	case "sudoku":
 		games.SudokuLiang()
 	default:
 	}
-	return salir
+	return exit
 }
 
 func showMenu() {
@@ -52,16 +57,19 @@ func showMenu() {
 	fmt.Println()
 }
 
-func chooseGame() (int, error) {
-	var text string
+func scanOptionGame() (string, error) {
+	return utils.Scan("Elige un juego: ")
+}
+
+func validateGameOption(text string) (int, error) {
 	var err error
 	var option int
 
-	text, err = utils.Scan("Elige un juego: ")
+	option, err = utils.ParseToInt(text)
 	if err == nil {
-		option, err = utils.ParseToInt(text)
-		if err == nil {
-			option, err = utils.RangeToOption(option, 0, LENGTH)
+		option--
+		if !utils.OptionInRange(option, 0, LENGTH) {
+			err = fmt.Errorf("opcion no valida")
 		}
 	}
 	return option, err
