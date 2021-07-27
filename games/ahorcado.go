@@ -118,40 +118,40 @@ func scanWord() (string, error) {
 
 func play(word string, word_size int) {
 	secret := createSecret(word_size, unknown_letter)
-	salir := false
-	vidas := size_img
+	exit := false
+	lifes := size_img
 
+	var letter string
 	var secret_word string
 	var err error
 
-	for !salir {
+	for !exit {
 
 		fmt.Println(secret)
 
-		var letter string
 		letter, err = utils.Scan("Ingrese una letra: ")
 
 		if err != nil {
 			fmt.Println(err)
-			salir = true
+			exit = true
 			continue
 		}
 
 		indexes_found := findAllOcurrences(word, letter)
 
 		if len(indexes_found) == 0 {
-			fmt.Print(IMAGES[size_img-vidas])
-			vidas--
+			fmt.Print(IMAGES[size_img-lifes])
+			lifes--
 		}
 
 		secret_word = fillAllOcurrences(secret, indexes_found)
 
 		if win(word, secret_word) {
-			salir = true
+			exit = true
 		}
 
-		if lose(word, vidas) {
-			salir = true
+		if lose(word, lifes) {
+			exit = true
 		}
 	}
 }
