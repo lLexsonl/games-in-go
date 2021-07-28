@@ -18,10 +18,11 @@ func main() {
 
 		showMenu()
 
-		text, err := scanOptionGame()
+		text, err := scanGameOption()
 		if err != nil {
 			fmt.Println(err)
 		}
+
 		option, err := validateGameOption(text)
 		if err != nil {
 			fmt.Println(err)
@@ -35,21 +36,17 @@ func play(option string) bool {
 	var exit = false
 	game := games.NewGame()
 	switch option {
-	case "ahorcado":
-		game.Play()
 	case "roshambo":
 		game.SetGame(&games.Rock{})
-		game.Play()
 	case "triqui":
 		game.SetGame(&games.Triqui{})
-		game.Play()
-	case "salir":
-		exit = true
 	case "sudoku":
 		game.SetGame(&games.SudokuLiang{})
-		game.Play()
+	case "salir":
+		exit = true
 	default:
 	}
+	game.Play()
 	return exit
 }
 
@@ -61,7 +58,7 @@ func showMenu() {
 	fmt.Println()
 }
 
-func scanOptionGame() (string, error) {
+func scanGameOption() (string, error) {
 	return utils.Scan("Elige un juego: ")
 }
 
