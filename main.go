@@ -35,21 +35,17 @@ func play(option string) bool {
 	var exit = false
 	game := games.NewGame()
 	switch option {
-	case "ahorcado":
-		game.Play()
 	case "roshambo":
 		game.SetGame(&games.Rock{})
-		game.Play()
 	case "triqui":
 		game.SetGame(&games.Triqui{})
-		game.Play()
-	case "salir":
-		exit = true
 	case "sudoku":
 		game.SetGame(&games.SudokuLiang{})
-		game.Play()
+	case "salir":
+		exit = true
 	default:
 	}
+	game.Play()
 	return exit
 }
 
