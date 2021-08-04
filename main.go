@@ -7,9 +7,10 @@ import (
 	"github.com/lLexsonl/games-in-go/utils"
 )
 
-var GAMES = []string{"ahorcado", "roshambo", "triqui", "sudoku", "salir"}
+var GAMES = []string{"ahorcado", "roshambo", "triqui", "sudoku"}
 
 var LENGTH = len(GAMES)
+var EXIT = "q"
 
 func main() {
 
@@ -24,15 +25,21 @@ func main() {
 		}
 
 		option, err := validateGameOption(text)
+
+		if text == EXIT || option == LENGTH {
+			exit = true
+			continue
+		}
+
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		exit = play(GAMES[option])
+		play(GAMES[option])
 	}
 }
 
-func play(option string) bool {
+func play(option string) {
 	game := games.NewGame()
 	switch option {
 	case "roshambo":
@@ -41,18 +48,18 @@ func play(option string) bool {
 		game.SetGame(&games.Triqui{})
 	case "sudoku":
 		game.SetGame(&games.SudokuLiang{})
-	case "salir":
-		return true
 	default:
 	}
 	game.Play()
-	return false
 }
 
 func showMenu() {
 	fmt.Println()
 	for i, opt := range GAMES {
 		fmt.Printf("%d.. Para %s\n", i+1, opt)
+		if i == LENGTH-1 {
+			fmt.Printf("%d.. Para salir o 'q'\n", i+2)
+		}
 	}
 	fmt.Println()
 }
