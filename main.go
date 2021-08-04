@@ -33,7 +33,6 @@ func main() {
 }
 
 func play(option string) bool {
-	var exit = false
 	game := games.NewGame()
 	switch option {
 	case "roshambo":
@@ -43,11 +42,11 @@ func play(option string) bool {
 	case "sudoku":
 		game.SetGame(&games.SudokuLiang{})
 	case "salir":
-		exit = true
+		return true
 	default:
 	}
 	game.Play()
-	return exit
+	return false
 }
 
 func showMenu() {
